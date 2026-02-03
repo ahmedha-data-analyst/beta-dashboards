@@ -170,37 +170,49 @@ st.markdown(f"""
 ALKALINE_DATA = {
     "Chloride (Cl-)": {
         "action_level": 10.0,
-        "escalation_level": 50.0,
+        "escalation_level": 3500.0,
         "why_it_matters": "Anodic Cl2/ClO-/ClO3- formation competes with OER.",
         "citation": "CER well-documented; more competitive under alkaline on MMO anodes (Ru/Ir oxides). (Chen et al., 2021, Electrochim. Acta)"
     },
+    "Bromide (Br-)": {
+        "action_level": 2.0,
+        "escalation_level": 8.0,
+        "why_it_matters": "HOBr/BrO3- formation.",
+        "citation": "Bromide oxidized to bromate at neutral. (von Gunten, 2003, Water Res.)"
+    },
+    "Iodide (I-)": {
+        "action_level": 0.3,
+        "escalation_level": 1.3,
+        "why_it_matters": "I2/iodate; catalyst poisoning.",
+        "citation": "Iodide oxidation documented at neutral/alkaline. (Heeb et al., 2014, ES&T)"
+    },
     "Sulphide (S2-/HS-)": {
         "action_level": 0.05,
-        "escalation_level": 0.5,
+        "escalation_level": 1.0,
         "why_it_matters": "Oxidizes to S0/polysulfides; electrode poisoning.",
         "citation": "Rapid anodic oxidation and catalyst fouling. (Mollah et al., 2004, J. Hazard. Mater.)"
     },
     "Cyanide (CN-)": {
         "action_level": 0.01,
-        "escalation_level": 0.05,
+        "escalation_level": 0.02,
         "why_it_matters": "Oxidized; with Cl- forms CNCl (toxic).",
         "citation": "CN oxidation and CNCl formation in Cl- media reported. (Zhou et al., 2012, Electrochim. Acta)"
     },
     "Nitrate (NO3- as N)": {
         "action_level": 5.0,
-        "escalation_level": 20.0,
+        "escalation_level": 50.0,
         "why_it_matters": "Competes with HER at cathode - NOx/NH3.",
         "citation": "Nitrate readily reduced; competes with HER. (Rosca et al., 2009, Chem. Rev.)"
     },
     "Nitrite (NO2- as N)": {
         "action_level": 0.1,
-        "escalation_level": 1.0,
+        "escalation_level": 50.0,
         "why_it_matters": "Cathodic reduction to NO/N2O/NH3.",
         "citation": "Nitrite reduced at low conc; side-reactions documented. (Dima et al., 2003, J. Electroanal. Chem.)"
     },
     "Ammonium (NH4+)": {
         "action_level": 1.0,
-        "escalation_level": 5.0,
+        "escalation_level": 10.0,
         "why_it_matters": "Forms chloramines with Cl-; NH3 slip.",
         "citation": "Chloramine kinetics well studied. (Vikesland et al., 2001, ES&T)"
     },
@@ -386,6 +398,57 @@ NEUTRAL_DATA = {
         "escalation_level": 0.001,
         "why_it_matters": "Amalgams.",
         "citation": "Hg deposition/amalgam. (Liu et al., 2002, ES&T)"
+    }
+}
+
+ACIDIC_DATA = {
+    "Chloride (Cl-)": {
+        "action_level": 175.0,
+        "escalation_level": 350.0,
+        "why_it_matters": "Cl2/HOCl formation competes strongly with OER at lower pH.",
+        "citation": "Cl- oxidation more competitive; CER vs OER selectivity. (Zhong et al., 2020, Chem. Rev.)"
+    },
+    "Bromide (Br-)": {
+        "action_level": 0.5,
+        "escalation_level": 1.0,
+        "why_it_matters": "HOBr/BrO3- formation.",
+        "citation": "Bromide oxidized to bromate at neutral. (von Gunten, 2003, Water Res.)"
+    },
+    "Iodide (I-)": {
+        "action_level": 0.05,
+        "escalation_level": 0.1,
+        "why_it_matters": "I2/iodate; catalyst poisoning.",
+        "citation": "Iodide oxidation documented at neutral/alkaline. (Heeb et al., 2014, ES&T)"
+    },
+    "Sulphide (HS-/S2-)": {
+        "action_level": 0.05,
+        "escalation_level": 0.1,
+        "why_it_matters": "Rapid anodic oxidation; fouling.",
+        "citation": "HS- oxidation to S0; poisoning electrodes. (Jiang et al., 2017, J. Hazard. Mater.)"
+    },
+    "Cyanide (CN-)": {
+        "action_level": 0.002,
+        "escalation_level": 0.005,
+        "why_it_matters": "Oxidized; CNCl with Cl-.",
+        "citation": "Electrochemical CN oxidation. (Rodriguez et al., 2002, Ind. Eng. Chem. Res.)"
+    },
+    "Nitrate (NO3- as N)": {
+        "action_level": 5.0,
+        "escalation_level": 10.0,
+        "why_it_matters": "Competes with HER; reduced to NH3/NO/N2O.",
+        "citation": "Nitrate reduction well studied. (Rosca et al., 2009, Chem. Rev.)"
+    },
+    "Nitrite (NO2- as N)": {
+        "action_level": 5.0,
+        "escalation_level": 10.0,
+        "why_it_matters": "Cathodic reduction products NO/N2O/NH3.",
+        "citation": "Nitrite reduction pathways documented. (Dima et al., 2003, J. Electroanal. Chem.)"
+    },
+    "Ammonium (NH4+)": {
+        "action_level": 0.5,
+        "escalation_level": 1.0,
+        "why_it_matters": "Forms chloramines with HOCl from Cl-.",
+        "citation": "Chloramine formation kinetics at neutral pH. (Vikesland et al., 2001, ES&T)"
     }
 }
 
@@ -638,13 +701,18 @@ with st.sidebar:
     
     ph_type = st.selectbox(
         "Select Wastewater pH Type",
-        options=["Alkaline pH (over 8)", "Neutral pH (5.5 to 7.5)"],
+        options=["Alkaline pH (over 8)", "Neutral pH (5.5 to 7.5)", "Acidic pH (less than 5)"],
         index=1,
         help="Select whether your wastewater is alkaline or neutral in pH"
     )
     
     # Get the appropriate data based on pH selection
-    current_data = ALKALINE_DATA if ph_type == "Alkaline pH (over 8)" else NEUTRAL_DATA
+    if ph_type == "Alkaline pH (over 8)":
+        current_data = ALKALINE_DATA
+    elif ph_type == "Neutral pH (5.5 to 7.5)":
+        current_data = NEUTRAL_DATA
+    else:
+        current_data = ACIDIC_DATA
     analyte_options = list(current_data.keys())
     
     st.markdown("---")
