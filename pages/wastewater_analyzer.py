@@ -9,6 +9,7 @@ DARK_GREY = "#30343c"
 LIGHT_GREY = "#8c919a"
 PLOT_BG = "#f2f4f7"
 TEXT_BLACK = "#000000"
+PLOT_TEXT_SIZE = 16
 
 # Status colors
 STATUS_GREEN = "#4CAF50"
@@ -496,36 +497,37 @@ def create_heatmap(results_df):
             y=row_labels[0],
             text=action_text,
             showarrow=False,
-            font=dict(color=TEXT_BLACK, size=11, family="Hind")
+            font=dict(color=TEXT_BLACK, size=PLOT_TEXT_SIZE, family="Hind")
         )
         fig.add_annotation(
             x=row["analyte"],
             y=row_labels[1],
             text=escalation_text,
             showarrow=False,
-            font=dict(color=TEXT_BLACK, size=11, family="Hind")
+            font=dict(color=TEXT_BLACK, size=PLOT_TEXT_SIZE, family="Hind")
         )
     
     fig.update_layout(
         title=dict(
             text="Water Quality vs Threshold Levels",
-            font=dict(size=18, color=TEXT_BLACK, family="Hind")
+            font=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind")
         ),
         xaxis=dict(
-            title=dict(text="Analyte", font=dict(size=12, color=TEXT_BLACK, family="Hind")),
+            title=dict(text="Analyte", font=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind")),
             tickangle=45,
-            tickfont=dict(size=10, color=TEXT_BLACK, family="Hind")
+            tickfont=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind")
         ),
         yaxis=dict(
-            title=dict(text="", font=dict(size=12, color=TEXT_BLACK, family="Hind")),
-            tickfont=dict(size=12, color=TEXT_BLACK, family="Hind"),
+            title=dict(text="", font=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind")),
+            tickfont=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind"),
             autorange="reversed"
         ),
         height=340,
         margin=dict(l=50, r=50, t=50, b=150),
         paper_bgcolor=PLOT_BG,
         plot_bgcolor=PLOT_BG,
-        font=dict(color=TEXT_BLACK, family="Hind")
+        font=dict(color=TEXT_BLACK, family="Hind", size=PLOT_TEXT_SIZE),
+        hoverlabel=dict(font=dict(size=PLOT_TEXT_SIZE, family="Hind"))
     )
     
     return fig
@@ -572,16 +574,16 @@ def create_bar_chart(results_df):
     fig.update_layout(
         title=dict(
             text="Concentration Comparison",
-            font=dict(size=18, color=TEXT_BLACK, family="Hind")
+            font=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind")
         ),
         xaxis=dict(
-            title=dict(text="Analyte", font=dict(size=12, color=TEXT_BLACK, family="Hind")),
+            title=dict(text="Analyte", font=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind")),
             tickangle=45,
-            tickfont=dict(size=10, color=TEXT_BLACK, family="Hind")
+            tickfont=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind")
         ),
         yaxis=dict(
-            title=dict(text="Concentration (mg/L)", font=dict(size=12, color=TEXT_BLACK, family="Hind")),
-            tickfont=dict(size=10, color=TEXT_BLACK, family="Hind"),
+            title=dict(text="Concentration (mg/L)", font=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind")),
+            tickfont=dict(size=PLOT_TEXT_SIZE, color=TEXT_BLACK, family="Hind"),
             type="log"
         ),
         barmode="group",
@@ -595,9 +597,10 @@ def create_bar_chart(results_df):
             y=1.02,
             xanchor="right",
             x=1,
-            font=dict(family="Hind", color=TEXT_BLACK)
+            font=dict(family="Hind", color=TEXT_BLACK, size=PLOT_TEXT_SIZE)
         ),
-        font=dict(color=TEXT_BLACK, family="Hind")
+        font=dict(color=TEXT_BLACK, family="Hind", size=PLOT_TEXT_SIZE),
+        hoverlabel=dict(font=dict(size=PLOT_TEXT_SIZE, family="Hind"))
     )
     
     return fig
